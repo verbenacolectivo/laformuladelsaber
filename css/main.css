@@ -195,18 +195,20 @@ body.landing {
     body.landing {
         display: grid;
         grid-template-rows: minmax(0, 1fr) auto minmax(0, 1fr);
-        height: auto;
-        min-height: 100vh;
-        min-height: 100svh;
-        overflow-y: auto;
+        height: 100vh;
+        height: 100svh;
+        min-height: 0;
+        overflow: hidden;
     }
 
     .landing__text {
         font-size: clamp(2.2rem, 14vw, 3.6rem);
     }
 
+    /* Corte simétrico: se oculta ~30% de la altura de las mayúsculas
+       arriba y abajo (valores en em para que escale con el tamaño) */
     .landing__text--top {
-        top: -3vw;
+        top: -0.335em;
     }
 
     .landing__center {
@@ -214,13 +216,7 @@ body.landing {
     }
 
     .landing__text--bottom {
-        grid-row: 3;
-        align-self: end;
-        position: static;
-        animation: none;
-        opacity: 1;
-        transform: none;
-        padding-bottom: 1.5rem;
+        bottom: -0.385em;
     }
 
     .landing__brand {
