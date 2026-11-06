@@ -77,7 +77,7 @@
             if (sessionStorage.getItem("respuestas-enviadas") === "1") return; // evita duplicados al recargar
         } catch (e) { /* sin sessionStorage: se envía igualmente */ }
 
-        var datos = {};
+        var datos = { _formulario: "La fórmula del saber" }; // indica al script en qué pestaña guardar
         blocks.forEach(function (block) {
             var q = block.dataset.question;
             var given = readAnswer(q);
