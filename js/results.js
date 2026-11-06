@@ -69,7 +69,7 @@
 
     /* ---------- Envío de respuestas a Google Sheets ---------- */
     /* Pega aquí la URL de la aplicación web de Apps Script (acaba en /exec) */
-    var SHEETS_URL = "PEGAR_AQUI_URL_EXEC";
+    var SHEETS_URL = "https://script.google.com/macros/s/AKfycbyp_upOdCe6n5SR8_sAm1I_T52RXs-_KwqDn85JRuHs5D4BDA7YVXL_ZxJ6VQanwrPr5w/exec";
 
     function sendToSheets() {
         if (SHEETS_URL.indexOf("https://") !== 0) return;
