@@ -8,6 +8,11 @@
 
     if (!options.length || !nextBtn) return;
 
+    /* Al empezar un test nuevo, permite volver a enviar respuestas a la hoja */
+    if (page === "1") {
+        try { sessionStorage.removeItem("respuestas-enviadas"); } catch (e) {}
+    }
+
     options.forEach(function (btn) {
         btn.addEventListener("click", function () {
             options.forEach(function (o) {

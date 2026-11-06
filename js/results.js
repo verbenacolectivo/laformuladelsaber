@@ -66,4 +66,41 @@
     if (totalEl) totalEl.textContent = total;
     if (titleEl) titleEl.textContent = msg.title;
     if (messageEl) messageEl.textContent = msg.text;
+
+    /* ---------- Envío de respuestas a Google Sheets ---------- */
+    /* Pega aquí la URL de la aplicación web de Apps Script (acaba en /exec) */
+    var SHEETS_URL = "PEGAR_AQUI_URL_EXEC";
+
+    function sendToSheets() {
+        if (SHEETS_URL.indexOf("https://") !== 0) return;
+        try {
+            if (sessionStorage.getItem("respuestas-enviadas") === "1") return; // evita duplicados al recargar
+        } catch (e) { /* sin sessionStorage: se envía igualmente */ }
+
+        var datos = {};
+        blocks.forEach(function (block) {
+            var q = block.dataset.question;
+            var given = readAnswer(q);
+            var texto = "Sin respuesta";
+            block.querySelectorAll(".results__option").forEach(function (opt) {
+                if (opt.dataset.value === given) {
+                    var ok = opt.dataset.correct === "true";
+                    texto = (ok ? "✓ " : "✗ ") + opt.querySelector(".results__option-text").textContent.trim();
+                }
+            });
+            datos["Pregunta " + q] = texto;
+        });
+        datos["Aciertos"] = score + "/" + total;
+
+        fetch(SHEETS_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify(datos)
+        }).then(function () {
+            try { sessionStorage.setItem("respuestas-enviadas", "1"); } catch (e) {}
+        }).catch(function () { /* sin conexión: no bloquea la página de resultados */ });
+    }
+
+    sendToSheets();
 })();
